@@ -3,31 +3,28 @@ import edu.princeton.cs.algs4.*;
 
 public class Percolation {
 
-  private boolean [][] grid;
+  private int [][] grid;
+  private int top_root;
+  private int bottom_root;
   private WeightedQuickUnionUF wquf;
 
   public Percolation(int n) {
-    grid = new boolean[n][n];
+    grid = new int[n][n];
     wquf = new WeightedQuickUnionUF(1 + n * n + 1);
+    top_root = 0;
+    bottom_root = n * n +1;
 
-    int top_root = 0;
-    int bot_root = n+1;
 
+    int pos = 1;
     for (int i = 0; i < n; i++) {
-      wquf.union(top_root, i);
-//      grid[0][i] = true;
+        for (int j = 0; j < n; j++) {
+          grid[i][j] = pos++;
+        }
     }
-    for (int i = 0; i < n; i++) {
-//      grid[n-1][i] = true;
-      wquf.union(bot_root, i);
+    for (int i = 0; i < n; i ++) {
+      wquf.union(i, top_root);
+      wquf.union( n*n - i, bottom_root);
     }
-
-/*    for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        grid[i][j] = false;
-      }
-    }
-*/
   }
 
   public void open(int i, int j) {
@@ -47,15 +44,25 @@ public class Percolation {
   }
 
   public void dumpIt() {
-    StdOut.println(true);
+//    StdOut.println(this.top_root);
+//    for (int i = 0; i < grid.length; i++) {
+//      for (int j = 0; j < grid.length; j++) {
+//        StdOut.print(grid[i][j] + " ");
+//      }
+//      StdOut.println();
+//    }
+//    StdOut.println(this.bottom_root);
+//
+    boolean connected = false;
     for (int i = 0; i < grid.length; i++) {
       for (int j = 0; j < grid.length; j++) {
-        // StdOut.print(i + "," + j + " =" + grid[i][j]);
-        StdOut.print(grid[i][j] + " ");
+        connected = wquf.connected(bottom_root, grid[i][j]);
+        StdOut.print(connected + " ");
       }
       StdOut.println();
     }
-    StdOut.println(true);
+
+
   }
 
   public static void main(String[] args) {
