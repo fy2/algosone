@@ -3,10 +3,10 @@ import edu.princeton.cs.algs4.*;
 
 public class Percolation {
 
-  private int [][] grid;
+  public int [][] grid;
   private int top_root;
   private int bottom_root;
-  private WeightedQuickUnionUF wquf;
+  public WeightedQuickUnionUF wquf;
 
   public Percolation(int n) {
     grid = new int[n][n];
@@ -15,7 +15,7 @@ public class Percolation {
     bottom_root = n * n +1;
 
 
-    int pos = 1;
+    int pos = 0;
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
           grid[i][j] = pos++;
@@ -23,7 +23,7 @@ public class Percolation {
     }
     for (int i = 0; i < n; i ++) {
       wquf.union(i, top_root);
-      wquf.union( n*n - i, bottom_root);
+      wquf.union( n*n - i -1, bottom_root);
     }
   }
 
@@ -52,11 +52,13 @@ public class Percolation {
 //      StdOut.println();
 //    }
 //    StdOut.println(this.bottom_root);
-//
     boolean connected = false;
     for (int i = 0; i < grid.length; i++) {
       for (int j = 0; j < grid.length; j++) {
         connected = wquf.connected(bottom_root, grid[i][j]);
+        if ( connected == false ) {
+          connected =  wquf.connected(top_root, grid[i][j]);
+        }
         StdOut.print(connected + " ");
       }
       StdOut.println();
