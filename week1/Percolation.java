@@ -42,34 +42,4 @@ public class Percolation {
   public boolean percolates() {
     return true;
   }
-
-  public void dumpIt() {
-//    StdOut.println(this.top_root);
-//    for (int i = 0; i < grid.length; i++) {
-//      for (int j = 0; j < grid.length; j++) {
-//        StdOut.print(grid[i][j] + " ");
-//      }
-//      StdOut.println();
-//    }
-//    StdOut.println(this.bottom_root);
-    boolean connected = false;
-    for (int i = 0; i < grid.length; i++) {
-      for (int j = 0; j < grid.length; j++) {
-        connected = wquf.connected(bottom_root, grid[i][j]);
-        if ( connected == false ) {
-          connected =  wquf.connected(top_root, grid[i][j]);
-        }
-        StdOut.print(connected + " ");
-      }
-      StdOut.println();
-    }
-
-
-  }
-
-  public static void main(String[] args) {
-    Percolation perc = new Percolation(5);
-    perc.dumpIt();
-  }
-
 }
