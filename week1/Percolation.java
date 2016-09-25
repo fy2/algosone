@@ -3,27 +3,27 @@ import edu.princeton.cs.algs4.*;
 
 public class Percolation {
 
-  public int [][] grid;
-  private int top_root;
-  private int bottom_root;
+  public boolean [][] grid;
+  private int top;
+  private int bot;
   public WeightedQuickUnionUF wquf;
 
   public Percolation(int n) {
-    grid = new int[n][n];
+    grid = new boolean[n][n];
     wquf = new WeightedQuickUnionUF(1 + n * n + 1);
-    top_root = 0;
-    bottom_root = n * n +1;
+    top = 0;
+    bot = n * n +1;
 
 
     int pos = 0;
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
-          grid[i][j] = pos++;
+          grid[i][j] = true;
         }
     }
-    for (int i = 0; i < n; i ++) {
-      wquf.union(i, top_root);
-      wquf.union( n*n - i -1, bottom_root);
+    for (int i = 1; i <= n; i++) {
+      wquf.union(i, top);
+      wquf.union( (n * n + 1 ) - i, bot);
     }
   }
 
@@ -41,5 +41,6 @@ public class Percolation {
 
   public boolean percolates() {
     return true;
+//    return this.wquf.connected(this.top_root, this.bottom_root);
   }
 }
