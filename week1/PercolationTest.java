@@ -66,9 +66,9 @@ public class PercolationTest {
 
     Percolation perc = new Percolation(5);
     assertFalse(perc.isFull(2, 1));
-    perc.open(2,1);
-    assertFalse(perc.isFull(2, 1));
     perc.open(1,1);
+    assertFalse(perc.isFull(2, 1));
+    perc.open(2,1);
     assertTrue(perc.isFull(1, 1));
     assertTrue(perc.isFull(2, 1));
 
@@ -91,7 +91,11 @@ public class PercolationTest {
     assertTrue(perc.isFull(4, 5));
     assertTrue(perc.isFull(5, 5));
 
-
+    assertFalse(perc.percolates());
+    perc.open(2,4);
+    assertFalse(perc.percolates());
+    perc.open(1,4);
+    assertTrue(perc.percolates());
   }
 
 }

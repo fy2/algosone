@@ -44,6 +44,7 @@ public class Percolation {
       if (isOpen(above, j)) { // upper neighbour 'open'
         wquf.union(curPos, grid_coord_to_int(above, j));
       }
+
     }
     if (i < size) { // only if we are not on the very last row
       if (isOpen(below, j)) { // below neighbour 'open'
@@ -78,7 +79,7 @@ public class Percolation {
   }
 
   public boolean percolates() {
-    return false;
-//    return this.wquf.connected(this.top_root, this.bottom_root);
+    return wquf.connected(top, bot);
   }
+
 }
