@@ -10,6 +10,9 @@ public class Percolation {
   private int size;
 
   public Percolation(int n) {
+    if ( n <= 0) {
+      throw new IllegalArgumentException();
+    }
     grid = new boolean[n][n];
     wquf = new WeightedQuickUnionUF(1 + n * n + 1);
     top = 0;
@@ -30,7 +33,7 @@ public class Percolation {
   }
 
   public void open(int i, int j) {
-
+    checkRange(i, j);
     grid[i-1][j-1] = true;
 
     int curPos = grid_coord_to_int(i, j);
@@ -65,10 +68,12 @@ public class Percolation {
   }
 
   public boolean isOpen(int i, int j) {
+    checkRange(i, j);
     return grid[i-1][j-1];
   }
 
   public boolean isFull(int i, int j) {
+    checkRange(i, j);
     int coord = grid_coord_to_int(i, j);
     return isOpen(i, j) && (wquf.connected(top, coord) || wquf.connected(bot, coord));
   }
@@ -80,6 +85,12 @@ public class Percolation {
 
   public boolean percolates() {
     return wquf.connected(top, bot);
+  }
+
+  private void checkRange (int i, int j) {
+    if (i < 1 || i > size || j < 1 || j > size) {
+      throw new IndexOutOfBoundsException();
+    }
   }
 
 }

@@ -98,4 +98,33 @@ public class PercolationTest {
     assertTrue(perc.percolates());
   }
 
+  @Test(expected=IllegalArgumentException.class)
+  public void testIllegalArgumentException() {
+    Percolation perc = new Percolation(-1);
+  }
+
+  @Test(expected=IndexOutOfBoundsException.class)
+  public void testIndexOutOfBoundsException() {
+    Percolation perc = new Percolation(5);
+    perc.open(0,1);
+  }
+
+  @Test(expected=IndexOutOfBoundsException.class)
+  public void testIndexOutOfBoundsException2() {
+    Percolation perc = new Percolation(5);
+    perc.open(1,6);
+  }
+
+  @Test(expected=IndexOutOfBoundsException.class)
+  public void testIndexOutOfBoundsException3() {
+    Percolation perc = new Percolation(5);
+    perc.isOpen(1,6);
+  }
+
+  @Test(expected=IndexOutOfBoundsException.class)
+  public void testIndexOutOfBoundsException4() {
+    Percolation perc = new Percolation(5);
+    perc.isFull(0,1);
+  }
+
 }
