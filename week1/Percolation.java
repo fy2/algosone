@@ -73,10 +73,18 @@ public class Percolation {
   public boolean isFull(int i, int j) {
     checkRange(i, j);
     int coord = grid_coord_to_int(i, j);
-    return isOpen(i, j) && (wquf.connected(top, coord) || wquf.connected(bot, coord));
+    return isOpen(i, j) && wquf.connected(top, coord);
   }
 
   public boolean percolates() {
+
+    // corner case only one block
+    if (this.size == 1) {
+      if (grid[0][0] == false) {
+        return false;
+      }
+    }
+
     return wquf.connected(top, bot);
   }
 

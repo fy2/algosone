@@ -43,6 +43,11 @@ public class PercolationStats {
   public static void main(String[] args) {    // test client (described below)
     int n = Integer.parseInt(args[0]);
     int trials = Integer.parseInt(args[1]);
+    if ( n <= 0 || trials <= 0) {
+      throw new IllegalArgumentException();
+    }
+
+
     PercolationStats stat = new PercolationStats(n, trials);
     StdOut.println("mean                    = " + stat.mean());
     StdOut.println("stddev                  = " + stat.stddev());
