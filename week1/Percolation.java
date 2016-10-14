@@ -2,10 +2,10 @@ import edu.princeton.cs.algs4.*;
 
 public class Percolation {
 
-  public boolean [][] grid;
+  private boolean [][] grid;
   private int top;
   private int bot;
-  public WeightedQuickUnionUF wquf;
+  private WeightedQuickUnionUF wquf;
   private int size;
 
   public Percolation(int n) {
