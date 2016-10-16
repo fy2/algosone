@@ -6,6 +6,7 @@ public class Percolation {
   private int top;
   private int bot;
   private WeightedQuickUnionUF wquf;
+  private WeightedQuickUnionUF wqufFullness;
   private int size;
 
   public Percolation(int n) {
@@ -14,6 +15,7 @@ public class Percolation {
     }
     grid = new boolean[n][n];
     wquf = new WeightedQuickUnionUF(1 + n * n + 1);
+    wqufFullness = new WeightedQuickUnionUF(1 + n * n + 1);
     top = 0;
     bot = n * n +1;
     size = n;
@@ -27,7 +29,8 @@ public class Percolation {
     }
     for (int i = 1; i <= n; i++) {
       wquf.union(i, top);
-    //  wquf.union( (n * n + 1 ) - i, bot);
+      wqufFullness.union(i, top);
+      wquf.union( (n * n + 1 ) - i, bot);
     }
   }
 
@@ -45,28 +48,28 @@ public class Percolation {
     if (i > 1) {
       if (isOpen(above, j)) { // upper neighbour 'open'
         wquf.union(curPos, gridCoordToInt(above, j));
+        wqufFullness.union(curPos, gridCoordToInt(above, j));
       }
     }
     if (i < size) {
       if (isOpen(below, j)) { // below neighbour 'open'
         wquf.union(curPos, gridCoordToInt(below, j));
+        wqufFullness.union(curPos, gridCoordToInt(below, j));
       }
     }
     if (j > 1) {
       if (isOpen(i, left)) {
         wquf.union(curPos, gridCoordToInt(i, left));
+        wqufFullness.union(curPos, gridCoordToInt(i, left));
       }
     }
     if (j < size) {
       if (isOpen(i, right)) {
         wquf.union(curPos, gridCoordToInt(i, right));
+        wqufFullness.union(curPos, gridCoordToInt(i, right));
       }
     }
 
-    // connect the bottom row (i == size) to bottom root only if it is full:
-    if (i == size && isFull(i, j)) {
-      wquf.union(curPos, bot);
-    }
   }
 
   public boolean isOpen(int i, int j) {
@@ -77,7 +80,7 @@ public class Percolation {
   public boolean isFull(int i, int j) {
     checkRange(i, j);
     int coord = gridCoordToInt(i, j);
-    return isOpen(i, j) && wquf.connected(top, coord);
+    return isOpen(i, j) && wqufFullness.connected(top, coord);
   }
 
   public boolean percolates() {
