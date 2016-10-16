@@ -4,19 +4,19 @@ import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
 
-  private Percolation perc;
   private double[] fractions;
   private int trials;
   public PercolationStats(int n, int trials) {
-    int total_sites = n * n;
+    int totalSites = n * n;
     this.trials = trials;
+    Percolation perc;
     fractions = new double[trials];
 
     for (int i = 0; i < trials; i++) {
 
       perc = new Percolation(n);
 
-      int sites_opened = 0;
+      int sitesOpened = 0;
       while (!perc.percolates()) {
         int randRow = StdRandom.uniform(1, n+1);
         int randCol = StdRandom.uniform(1, n+1);
@@ -24,9 +24,9 @@ public class PercolationStats {
           continue;
         }
         perc.open(randRow, randCol);
-        sites_opened++;
+        sitesOpened++;
       }
-      fractions[i]  =  (double) sites_opened / total_sites;
+      fractions[i]  =  (double) sitesOpened / totalSites;
     }
   }
   public double mean() {

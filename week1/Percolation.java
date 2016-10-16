@@ -30,7 +30,7 @@ public class Percolation {
     for (int i = 1; i <= n; i++) {
       wquf.union(i, top);
       wqufFullness.union(i, top);
-      wquf.union( (n * n + 1 ) - i, bot);
+      wquf.union((n * n + 1) - i, bot);
     }
   }
 
