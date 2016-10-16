@@ -1,4 +1,4 @@
-import edu.princeton.cs.algs4.*;
+import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
 
@@ -9,7 +9,7 @@ public class Percolation {
   private int size;
 
   public Percolation(int n) {
-    if ( n <= 0) {
+    if (n <= 0) {
       throw new IllegalArgumentException();
     }
     grid = new boolean[n][n];
@@ -27,7 +27,7 @@ public class Percolation {
     }
     for (int i = 1; i <= n; i++) {
       wquf.union(i, top);
-      wquf.union( (n * n + 1 ) - i, bot);
+    //  wquf.union( (n * n + 1 ) - i, bot);
     }
   }
 
@@ -35,7 +35,7 @@ public class Percolation {
     checkRange(i, j);
 
     grid[i-1][j-1] = true;
-    int curPos = grid_coord_to_int(i, j);
+    int curPos = gridCoordToInt(i, j);
     int above = i - 1;
     int below = i + 1;
     int left  = j - 1;
@@ -44,25 +44,29 @@ public class Percolation {
 
     if (i > 1) {
       if (isOpen(above, j)) { // upper neighbour 'open'
-        wquf.union(curPos, grid_coord_to_int(above, j));
+        wquf.union(curPos, gridCoordToInt(above, j));
       }
     }
     if (i < size) {
       if (isOpen(below, j)) { // below neighbour 'open'
-        wquf.union(curPos, grid_coord_to_int(below, j));
+        wquf.union(curPos, gridCoordToInt(below, j));
       }
     }
     if (j > 1) {
       if (isOpen(i, left)) {
-        wquf.union(curPos, grid_coord_to_int(i, left));
+        wquf.union(curPos, gridCoordToInt(i, left));
       }
     }
     if (j < size) {
       if (isOpen(i, right)) {
-        wquf.union(curPos, grid_coord_to_int(i, right));
+        wquf.union(curPos, gridCoordToInt(i, right));
       }
     }
 
+    // connect the bottom row (i == size) to bottom root only if it is full:
+    if (i == size && isFull(i, j)) {
+      wquf.union(curPos, bot);
+    }
   }
 
   public boolean isOpen(int i, int j) {
@@ -72,7 +76,7 @@ public class Percolation {
 
   public boolean isFull(int i, int j) {
     checkRange(i, j);
-    int coord = grid_coord_to_int(i, j);
+    int coord = gridCoordToInt(i, j);
     return isOpen(i, j) && wquf.connected(top, coord);
   }
 
@@ -80,7 +84,7 @@ public class Percolation {
 
     // corner case only one block
     if (this.size == 1) {
-      if (grid[0][0] == false) {
+      if (!grid[0][0]) {
         return false;
       }
     }
@@ -88,12 +92,12 @@ public class Percolation {
     return wquf.connected(top, bot);
   }
 
-  private int grid_coord_to_int (int i, int j) {
-    int res = ( (i - 1) * size + j );
+  private int gridCoordToInt(int i, int j) {
+    int res = ((i - 1) * size + j);
     return res;
   }
 
-  private void checkRange (int i, int j) {
+  private void checkRange(int i, int j) {
     if (i < 1 || i > size || j < 1 || j > size) {
       throw new IndexOutOfBoundsException();
     }
